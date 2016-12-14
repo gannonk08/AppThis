@@ -30,9 +30,9 @@ function numberParser(arrayOfNums) {
     return a + b;
   }, 0);
 
-  let rightSum = rightTrue.reduce(function(a, b) {
-    return a + b;
-  }, 0);
+    let rightSum = rightTrue.reduce(function(a, b) {
+      return a + b;
+    }, 0);
 
   let total = leftSum + rightSum;
 
