@@ -1,40 +1,65 @@
 function numberParserEC(arrayOfNums, numOfPiles) {
 
-  const hiToLoArray = arrayOfNums.sort((a, b) => {
-    return a-b
-  });
+  let loToHiArray = sortLoToHi(arrayOfNums);
+
+  //Decrementing while loop is faster than traditional for loop in JS
+
   let arrangedArrays = [];
-  for (var i = 0; i < numOfPiles; i++) {
+  let i = numOfPiles;
+  while (i--) {
     arrangedArrays.push([]);
   }
 
-  while (hiToLoArray.length > 0) {
+  // go throught the arrangedArrays and pop off the highest value for each number until the loToHiArray is empty
+
+  while (loToHiArray.length > 0) {
     arrangedArrays.forEach((array) => {
-      if (hiToLoArray.length) {
-        array.push(hiToLoArray.pop())
+      if (loToHiArray.length) {
+        array.push(loToHiArray.pop())
       }
     })
   }
 
-  let trueArray =
-  arrangedArrays.map((array) => {
+  let magnitudeArray = truthArrayValues(arrangedArrays);
+
+  let oneDimensionArray = makeArray1D(magnitudeArray);
+
+  let total = sumArray(oneDimensionArray)
+
+  return total;
+}
+
+//sort the an array from low to high
+function sortLoToHi(arrayOfNums) {
+  return arrayOfNums.sort((a, b) => {
+    return a-b
+  });
+}
+
+// adds magnitudes to each of the number in the array based on its position
+function truthArrayValues(arrangedArrays) {
+  return arrangedArrays.map((array) => {
     return array.map((number,i) => {
       let arrayLength = array.length;
       return number * Math.pow(10, arrayLength - (i + 1));
     })
   })
+}
 
-  let oneDimensionArray = trueArray.map((array) => {
+//flattens array from 2D to 1D
+function makeArray1D(magnitudeArray) {
+  return magnitudeArray.map((array) => {
     return array.reduce(function(a, b) {
       return a + b;
     }, 0);
   })
+}
 
-  let total = oneDimensionArray.reduce(function(a, b) {
+// sums all of the values of an array
+function sumArray(array) {
+  return array.reduce(function(a, b) {
     return a + b;
   }, 0);
-
-  return total;
 }
 
 var testArrayOne = [3, 6, 4, 9, 0, 1]

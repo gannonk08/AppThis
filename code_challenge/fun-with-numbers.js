@@ -1,44 +1,65 @@
 function numberParser(arrayOfNums) {
 
-  let hiToLoArray = arrayOfNums.sort((a, b) => {
-    return b-a
-  });
+  let hiToLoArray = sortHiToLo(arrayOfNums);
 
-  let leftArray = [];
-  let rightArray = [];
+  let leftArray = splitLeft(hiToLoArray);
 
-  for (var i = 0; i < hiToLoArray.length; i++) {
-    if (i % 2 === 0) {
-      leftArray.push(hiToLoArray[i])
-    }
-    else {
-      rightArray.push(hiToLoArray[i])
-    }
-  }
+  let rightArray = splitRight(hiToLoArray);
 
-  let leftTrue = leftArray.map((number,i) => {
-    let arrayLength = leftArray.length;
-    return number * Math.pow(10, arrayLength - (i + 1));
-  })
+  let leftMagnitude = truthArrayValues(leftArray);
 
-  let rightTrue = rightArray.map((number,i) => {
-    let arrayLength = rightArray.length;
-    return number * Math.pow(10, arrayLength - (i + 1));
-  })
+  let rightMagnitude = truthArrayValues(rightArray);
 
-  let leftSum = leftTrue.reduce(function(a, b) {
-    return a + b;
-  }, 0);
+  let leftSum = sumArray(leftMagnitude)
 
-    let rightSum = rightTrue.reduce(function(a, b) {
-      return a + b;
-    }, 0);
+  let rightSum = sumArray(rightMagnitude)
 
   let total = leftSum + rightSum;
 
   return total
 
 }
+
+//sort the an array from high to low
+function sortHiToLo(arrayOfNums) {
+  return arrayOfNums.sort((a, b) => {
+    return b-a
+  });
+}
+
+// splits the sorted array for every other number
+function splitLeft(hiToLoArray) {
+  return hiToLoArray.filter((number,i) => {
+    if (i % 2 === 0) {
+      return true
+    }
+  })
+}
+
+// splits the sorted array for every other number
+function splitRight(hiToLoArray) {
+  return hiToLoArray.filter((number,i) => {
+    if (i % 2 !== 0) {
+      return true
+    }
+  })
+}
+
+// adds magnitudes to each of the number in the array based on its position
+function truthArrayValues(array) {
+  return array.map((number,i) => {
+    let arrayLength = array.length;
+    return number * Math.pow(10, arrayLength - (i + 1));
+  })
+}
+
+// sums all of the values of an array
+function sumArray(array) {
+  return array.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+}
+
 var testArrayOne = [9, 4, 2, 7, 9 ,0]
 var testArrayTwo = [1, 2, 1, 2, 1, 2]
 var testArrayThree = [9, 1, 8, 2, 7, 3]
